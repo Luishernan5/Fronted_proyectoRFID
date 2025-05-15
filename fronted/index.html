@@ -1,0 +1,26 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Lectura de Tarjeta RFID</title>
+  <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+  <div class="login-container">
+    <h2>Lectura de Tarjeta</h2>
+    <p>Simulación: escribe tu matrícula como si fuera una tarjeta escaneada</p>
+    <input type="text" id="matricula" placeholder="Matrícula RFID">
+    <button onclick="leerTarjeta()">Leer Tarjeta</button>
+  </div>
+
+  <script>
+    function leerTarjeta() {
+      const matricula = document.getElementById("matricula").value.trim();
+      if (!matricula) return alert("Por favor ingresa una matrícula simulada.");
+      localStorage.setItem("rfid_temp", matricula);
+      window.location.href = "login.html";
+    }
+  </script>
+</body>
+</html>

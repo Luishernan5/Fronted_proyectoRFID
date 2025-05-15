@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Pase de Lista - Guardado</title>
+  <link rel="stylesheet" href="css/asistencia.css">
+</head>
+<body>
+  <div class="login-container">
+    <h2>Pase de Lista Guardado</h2>
+    <table id="tablaPase" border="1" style="width:100%; margin-top: 20px;">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Matrícula</th>
+          <th>Nombre</th>
+          <th>Apellido Paterno</th>
+          <th>Apellido Materno</th>
+          <th>Correo</th>
+          <th>Asistencia</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <br>
+    <div id="botonExcelContainer"></div>
+    <a href="#" onclick="volver()"><button>Volver</button></a>
+  </div>
+
+  <script src="js/datosSimulados.js"></script>
+  <script>
+    const usuario = JSON.parse(localStorage.getItem("usuario"));
+    if (!usuario) location.href = "login.html";
+
+    const pase = JSON.parse(localStorage.getItem("paseLista") || "[]");
+    const alumnos = usuariosSimulados.filter(u => u.rol === "alumno");
+    const tabla = document.querySelector("#tablaPase tbody");
+
+    alumnos.forEach(al => {
+      const estado = pase.find(p => p.id_usuario == al.id_usuario)?.presente ? "Presente" : "Ausente";
+      const fila = document.createElement("tr");
+      fila.innerHTML = `
+        <td>${al.id_usuario}</td>
+        <td>${al.matricula}</td>
+        <td>${al.nombre}</td>
+        <td>${al.ape1}</td>
+        <td>${al.ape2 || ""}</td>
+        <td>${al.correo}</td>
+        <td>${estado}</td>
+      `;
+      tabla.appendChild(fila);
+    });
+
+    if (usuario.rol === "profesor") {
+      const boton = document.createElement("button");
+      boton.textContent = "Generar Excel";
+      boton.onclick = () => alert("Funcionalidad de generación de Excel aún no configurada.");
+      document.getElementById("botonExcelContainer").appendChild(boton);
+    }
+
+    function volver() {
+      if (usuario.rol === "profesor") window.location.href = "profesor.html";
+      else window.location.href = "alumno.html";
+    }
+  </script>
+</body>
+</html>

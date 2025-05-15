@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Horario</title>
+  <link rel="stylesheet" href="css/asistencia.css">
+</head>
+<body>
+  <div class="login-container">
+    <h2>Mi Horario</h2>
+    <table border="1" style="width:100%; margin-top: 20px;">
+      <thead>
+        <tr>
+          <th>Materia</th>
+          <th>Día</th>
+          <th>Hora Inicio</th>
+          <th>Hora Final</th>
+        </tr>
+      </thead>
+      <tbody id="tablaHorario"></tbody>
+    </table>
+    <a href="#" onclick="volver()"><button>Volver</button></a>
+  </div>
+
+  <script src="js/datosSimulados.js"></script>
+  <script>
+    const usuario = JSON.parse(localStorage.getItem("usuario"));
+    if (!usuario || (usuario.rol !== "profesor" && usuario.rol !== "alumno")) location.href = "login.html";
+
+    const horario = [
+      { clave: "ACF-0905", nombre: "Ecuaciones Diferenciales", dia: "Lunes", inicio: "09:00", final: "10:00" },
+      { clave: "ACF-0905", nombre: "Ecuaciones Diferenciales", dia: "Viernes", inicio: "10:00", final: "11:00" },
+      { clave: "SCC-1017", nombre: "Métodos Numéricos", dia: "Martes", inicio: "08:00", final: "09:00" },
+      { clave: "SCD-1027", nombre: "Tópicos de Programación", dia: "Miércoles", inicio: "11:00", final: "12:00" },
+      { clave: "AEF-1031", nombre: "Fundamentos de BD", dia: "Jueves", inicio: "12:00", final: "13:00" },
+      { clave: "SCA-1026", nombre: "Taller de SO", dia: "Viernes", inicio: "07:00", final: "08:00" }
+    ];
+
+    const materiasUsuario = usuario.materias.map(m => m.clave || m); // si profesor: objetos, si alumno: strings
+    const tabla = document.getElementById("tablaHorario");
+
+    horario.forEach(h => {
+      if (materiasUsuario.includes(h.clave)) {
+        const fila = document.createElement("tr");
+        fila.innerHTML = `
+          <td>${h.nombre}</td>
+          <td>${h.dia}</td>
+          <td>${h.inicio}</td>
+          <td>${h.final}</td>
+        `;
+        tabla.appendChild(fila);
+      }
+    });
+
+    function volver() {
+      window.location.href = usuario.rol === "profesor" ? "profesor.html" : "alumno.html";
+    }
+  </script>
+</body>
+</html>

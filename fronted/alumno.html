@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Horario del Grupo 3401</title>
+  <link rel="stylesheet" href="css/asistencia.css">
+</head>
+<body>
+  <div class="login-container">
+    <h2>Horario completo del grupo 3401</h2>
+    <table border="1" style="width:100%; margin-top: 20px;">
+      <thead>
+        <tr>
+          <th>Materia</th>
+          <th>Día</th>
+          <th>Hora</th>
+          <th>Profesor</th>
+          <th>Asistencia</th>
+        </tr>
+      </thead>
+      <tbody id="tablaHorario"></tbody>
+    </table>
+    <br>
+    <a href="login.html"><button>Volver</button></a>
+  </div>
+
+  <script>
+    const usuario = JSON.parse(localStorage.getItem("usuario"));
+    const pases = JSON.parse(localStorage.getItem("pases") || "{}");
+
+    const horario = [
+      { clave: "ACF-0905", materia: "Ecuaciones Diferenciales", dia: "Lunes", hora: "13:00–15:00", profesor: "ING. Rodolfo Guadalupe Alcántara Rosales" },
+      { clave: "ACF-0905", materia: "Ecuaciones Diferenciales", dia: "Viernes", hora: "12:00–15:00", profesor: "ING. Rodolfo Guadalupe Alcántara Rosales" },
+      { clave: "SCC-1017", materia: "Métodos Numéricos", dia: "Miércoles", hora: "11:00–13:00", profesor: "LIC. Juan Alberto Martínez Zamora" },
+      { clave: "SCC-1017", materia: "Métodos Numéricos", dia: "Jueves", hora: "11:00–13:00", profesor: "LIC. Juan Alberto Martínez Zamora" },
+      { clave: "SCD-1027", materia: "Tópicos Avanzados de Programación", dia: "Martes", hora: "12:00–15:00", profesor: "Víctor David Maya Arce" },
+      { clave: "SCD-1027", materia: "Tópicos Avanzados de Programación", dia: "Jueves", hora: "09:00–11:00", profesor: "Víctor David Maya Arce" },
+      { clave: "AEF-1031", materia: "Fundamentos de Base de Datos", dia: "Lunes", hora: "11:00–13:00", profesor: "Mtra. Yadira Esther Jiménez Pérez" },
+      { clave: "AEF-1031", materia: "Fundamentos de Base de Datos", dia: "Miércoles", hora: "08:00–11:00", profesor: "Mtra. Yadira Esther Jiménez Pérez" },
+      { clave: "SCA-1026", materia: "Taller de Sistemas Operativos", dia: "Lunes", hora: "07:00–09:00", profesor: "M.A. Anselmo Martínez Montalvo" },
+      { clave: "SCA-1026", materia: "Taller de Sistemas Operativos", dia: "Jueves", hora: "07:00–09:00", profesor: "M.A. Anselmo Martínez Montalvo" },
+      { clave: "SCD-1003", materia: "Arquitectura de Computadoras", dia: "Miércoles", hora: "13:00–15:00", profesor: "Ing. Alfredo Aguilar López" },
+      { clave: "SCD-1003", materia: "Arquitectura de Computadoras", dia: "Viernes", hora: "09:00–12:00", profesor: "Ing. Alfredo Aguilar López" },
+      { clave: "ACA-0907", materia: "Taller de Ética", dia: "Martes", hora: "10:00–12:00", profesor: "C.P. Sonia Vázquez Alcántara" },
+      { clave: "ACA-0907", materia: "Taller de Ética", dia: "Jueves", hora: "13:00–15:00", profesor: "C.P. Sonia Vázquez Alcántara" },
+      { clave: "INGLES", materia: "Inglés", dia: "Lunes", hora: "09:00–11:00", profesor: "L.L. Isidoro Cruz Huitrón" },
+      { clave: "INGLES", materia: "Inglés", dia: "Martes", hora: "15:00–16:00", profesor: "L.L. Isidoro Cruz Huitrón" },
+      { clave: "INGLES", materia: "Inglés", dia: "Viernes", hora: "07:00–09:00", profesor: "L.L. Isidoro Cruz Huitrón" }
+    ];
+
+    const tbody = document.getElementById("tablaHorario");
+    horario.forEach(h => {
+      let estado = "No registrado";
+      if (usuario && pases[h.clave]) {
+        const registro = pases[h.clave].find(p => p.id_usuario === usuario.id_usuario);
+        if (registro) estado = registro.presente ? "Presente" : "Ausente";
+      }
+
+      const fila = document.createElement("tr");
+      fila.innerHTML = `
+        <td>${h.materia}</td>
+        <td>${h.dia}</td>
+        <td>${h.hora}</td>
+        <td>${h.profesor}</td>
+        <td>${estado}</td>
+      `;
+      tbody.appendChild(fila);
+    });
+  </script>
+</body>
+</html>

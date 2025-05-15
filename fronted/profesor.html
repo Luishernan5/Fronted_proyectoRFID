@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Panel Profesor</title>
+  <link rel="stylesheet" href="css/profesor.css">
+</head>
+<body>
+  <div class="login-container">
+    <h1>Bienvenido, <span id="nombreProfesor"></span></h1>
+
+    <h3>Selecciona un grupo:</h3>
+    <select id="grupoSelect" onchange="cargarMaterias()">
+      <option value="">-- Grupo --</option>
+      <option value="3401">Grupo 3401</option>
+    </select>
+
+    <div id="materiaContainer" style="display:none;">
+      <h3>Selecciona una materia:</h3>
+      <select id="materiaSelect"></select>
+
+      <div style="margin-top: 20px;">
+        <button onclick="redirigir('admin_alumnos.html')">Editar alumnos</button>
+        <button onclick="redirigir('profesor_lista.html')">Tomar pase</button>
+        <button onclick="redirigir('ver_pase.html')">Ver pase guardado</button>
+        <button onclick="redirigir('horario.html')">Ver horario</button>
+      </div>
+    </div>
+    <br>
+    <a href="login.html">Cerrar sesión</a>
+  </div>
+
+  <script src="js/datosSimulados.js"></script>
+  <script>
+    const profesor = JSON.parse(localStorage.getItem("usuario"));
+    if (!profesor || profesor.rol !== "profesor") location.href = "login.html";
+    document.getElementById("nombreProfesor").textContent = profesor.nombre + " " + profesor.ape1;
+
+    function cargarMaterias() {
+      const grupo = document.getElementById("grupoSelect").value;
+      const materiaSelect = document.getElementById("materiaSelect");
+      const container = document.getElementById("materiaContainer");
+
+      if (!grupo) {
+        container.style.display = "none";
+        return;
+      }
+
+      localStorage.setItem("grupoSeleccionado", grupo);
+      materiaSelect.innerHTML = "";
+      profesor.materias.forEach(mat => {
+        const op = document.createElement("option");
+        op.value = mat.clave;
+        op.textContent = mat.nombre;
+        materiaSelect.appendChild(op);
+      });
+
+      container.style.display = "block";
+    }
+
+    function redirigir(pagina) {
+      const materia = document.getElementById("materiaSelect").value;
+      if (!materia) return alert("Selecciona una materia.");
+      localStorage.setItem("materiaSeleccionada", materia);
+      window.location.href = pagina;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Tomar Pase</title>
+  <link rel="stylesheet" href="css/asistencia.css">
+</head>
+<body>
+  <div class="login-container">
+    <h2>Pase de Lista</h2>
+    <table border="1" style="width:100%; margin-top: 20px;">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Matrícula</th>
+          <th>Nombre</th>
+          <th>Apellido Paterno</th>
+          <th>Apellido Materno</th>
+          <th>Correo</th>
+          <th>Asistencia</th>
+        </tr>
+      </thead>
+      <tbody id="tablaPase"></tbody>
+    </table>
+    <br>
+    <button onclick="guardarPase()">Guardar Pase</button>
+    <a href="profesor.html"><button>Volver</button></a>
+  </div>
+
+  <script src="js/datosSimulados.js"></script>
+  <script>
+    const usuario = JSON.parse(localStorage.getItem("usuario"));
+    const materia = localStorage.getItem("materiaSeleccionada");
+    if (!usuario || usuario.rol !== "profesor" || !materia) location.href = "login.html";
+
+    const alumnos = usuariosSimulados.filter(u => u.rol === "alumno");
+    const tbody = document.getElementById("tablaPase");
+
+    alumnos.forEach(al => {
+      const fila = document.createElement("tr");
+      fila.innerHTML = `
+        <td>${al.id_usuario}</td>
+        <td>${al.matricula}</td>
+        <td>${al.nombre}</td>
+        <td>${al.ape1}</td>
+        <td>${al.ape2 || ""}</td>
+        <td>${al.correo}</td>
+        <td><input type="checkbox" data-id="${al.id_usuario}"></td>
+      `;
+      tbody.appendChild(fila);
+    });
+
+    function guardarPase() {
+      const checks = document.querySelectorAll("input[type='checkbox']");
+      const lista = Array.from(checks).map(c => ({
+        id_usuario: parseInt(c.dataset.id),
+        presente: c.checked
+      }));
+
+      let paseGlobal = JSON.parse(localStorage.getItem("pases") || "{}");
+      paseGlobal[materia] = lista;
+
+      localStorage.setItem("pases", JSON.stringify(paseGlobal));
+      alert("Pase guardado para " + materia);
+    }
+  </script>
+</body>
+</html>

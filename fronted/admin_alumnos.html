@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Editar Alumnos</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <div class="login-container">
+    <h2>Editar Alumnos del Grupo 3401</h2>
+    <form id="formAgregar">
+      <input type="text" id="matricula" placeholder="Matrícula" required>
+      <input type="text" id="nombre" placeholder="Nombre" required>
+      <input type="text" id="ape1" placeholder="Apellido Paterno" required>
+      <input type="text" id="ape2" placeholder="Apellido Materno">
+      <input type="email" id="correo" placeholder="Correo" required>
+      <button type="submit">Agregar Alumno</button>
+    </form>
+    <table style="width:100%; margin-top:20px;" border="1">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Matrícula</th>
+          <th>Nombre</th>
+          <th>Ape. Paterno</th>
+          <th>Ape. Materno</th>
+          <th>Correo</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="tablaAlumnos"></tbody>
+    </table>
+    <a href="profesor.html"><button>Volver</button></a>
+  </div>
+
+  <script src="js/datosSimulados.js"></script>
+  <script>
+    const alumnosBase = usuariosSimulados.filter(u => u.rol === "alumno");
+    let alumnosList = JSON.parse(localStorage.getItem("alumnos3401")) || alumnosBase;
+
+    function cargarTabla() {
+      const tbody = document.getElementById("tablaAlumnos");
+      tbody.innerHTML = "";
+      alumnosList.forEach((alumno, index) => {
+        const fila = document.createElement("tr");
+        fila.innerHTML = `
+          <td>${alumno.id_usuario}</td>
+          <td>${alumno.matricula}</td>
+          <td>${alumno.nombre}</td>
+          <td>${alumno.ape1}</td>
+          <td>${alumno.ape2 || ""}</td>
+          <td>${alumno.correo}</td>
+          <td><button onclick="eliminar(${index})">Eliminar</button></td>
+        `;
+        tbody.appendChild(fila);
+      });
+    }
+
+    function eliminar(index) {
+      if (confirm("¿Estás seguro de eliminar este alumno?")) {
+        alumnosList.splice(index, 1);
+        guardar();
+        cargarTabla();
+      }
+    }
+
+    function guardar() {
+      localStorage.setItem("alumnos3401", JSON.stringify(alumnosList));
+    }
+
+    document.getElementById("formAgregar").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const nuevo = {
+        id_usuario: alumnosList.length ? Math.max(...alumnosList.map(a => a.id_usuario)) + 1 : 1,
+        matricula: document.getElementById("matricula").value,
+        nombre: document.getElementById("nombre").value,
+        ape1: document.getElementById("ape1").value,
+        ape2: document.getElementById("ape2").value,
+        correo: document.getElementById("correo").value,
+        rol: "alumno",
+        password: "alum",
+        materias: [
+          "ACF-0905", "SCC-1017", "SCD-1027", "AEF-1031",
+          "SCA-1026", "SCD-1003", "ACA-0907", "INGLES"
+        ]
+      };
+      alumnosList.push(nuevo);
+      guardar();
+      cargarTabla();
+      this.reset();
+    });
+
+    window.onload = cargarTabla;
+  </script>
+</body>
+</html>
