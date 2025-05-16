@@ -2,12 +2,15 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Horario del Grupo 3401</title>
+  <title>Horario del Alumno - Grupo 3401</title>
   <link rel="stylesheet" href="css/asistencia.css">
 </head>
 <body>
   <div class="login-container">
-    <h2>Horario completo del grupo 3401</h2>
+    <h2>Mi Horario Completo con Asistencia</h2>
+
+    <div id="infoAlumno" style="margin-bottom: 20px; text-align: left;"></div>
+
     <table border="1" style="width:100%; margin-top: 20px;">
       <thead>
         <tr>
@@ -20,14 +23,26 @@
       </thead>
       <tbody id="tablaHorario"></tbody>
     </table>
+
     <br>
-    <a href="login.html"><button>Volver</button></a>
+    <button onclick="volver()">Volver</button>
   </div>
 
   <script>
     const usuario = JSON.parse(localStorage.getItem("usuario"));
+    if (!usuario || usuario.rol !== "alumno") location.href = "login.html";
+
+    // Mostrar datos del alumno
+    const infoDiv = document.getElementById("infoAlumno");
+    infoDiv.innerHTML = `
+      <strong>Nombre:</strong> ${usuario.nombre} ${usuario.ape1} ${usuario.ape2 || ""}<br>
+      <strong>Matrícula:</strong> ${usuario.matricula}<br>
+      <strong>Correo:</strong> ${usuario.correo}
+    `;
+
     const pases = JSON.parse(localStorage.getItem("pases") || "{}");
 
+    // Lista completa del horario del grupo
     const horario = [
       { clave: "ACF-0905", materia: "Ecuaciones Diferenciales", dia: "Lunes", hora: "13:00–15:00", profesor: "ING. Rodolfo Guadalupe Alcántara Rosales" },
       { clave: "ACF-0905", materia: "Ecuaciones Diferenciales", dia: "Viernes", hora: "12:00–15:00", profesor: "ING. Rodolfo Guadalupe Alcántara Rosales" },
@@ -48,24 +63,32 @@
       { clave: "INGLES", materia: "Inglés", dia: "Viernes", hora: "07:00–09:00", profesor: "L.L. Isidoro Cruz Huitrón" }
     ];
 
+    const materiasAlumno = usuario.materias;
     const tbody = document.getElementById("tablaHorario");
-    horario.forEach(h => {
-      let estado = "No registrado";
-      if (usuario && pases[h.clave]) {
-        const registro = pases[h.clave].find(p => p.id_usuario === usuario.id_usuario);
-        if (registro) estado = registro.presente ? "Presente" : "Ausente";
-      }
 
-      const fila = document.createElement("tr");
-      fila.innerHTML = `
-        <td>${h.materia}</td>
-        <td>${h.dia}</td>
-        <td>${h.hora}</td>
-        <td>${h.profesor}</td>
-        <td>${estado}</td>
-      `;
-      tbody.appendChild(fila);
+    horario.forEach(h => {
+      if (materiasAlumno.includes(h.clave)) {
+        let estado = "No registrado";
+        if (pases[h.clave]) {
+          const registro = pases[h.clave].find(p => p.id_usuario === usuario.id_usuario);
+          if (registro) estado = registro.presente ? "Presente" : "Ausente";
+        }
+
+        const fila = document.createElement("tr");
+        fila.innerHTML = `
+          <td>${h.materia}</td>
+          <td>${h.dia}</td>
+          <td>${h.hora}</td>
+          <td>${h.profesor}</td>
+          <td>${estado}</td>
+        `;
+        tbody.appendChild(fila);
+      }
     });
+
+    function volver() {
+      window.location.href = "login.html";
+    }
   </script>
 </body>
 </html>

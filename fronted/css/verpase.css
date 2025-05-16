@@ -1,0 +1,19 @@
+
+body {
+    font-family: sans-serif;
+    background: #e5f7ff;
+    padding: 20px;
+}
+.login-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    margin: auto;
+    max-width: 500px;
+    text-align: center;
+}
+ul {
+    list-style-type: disc;
+    margin: 0;
+    padding: 0;
+}
