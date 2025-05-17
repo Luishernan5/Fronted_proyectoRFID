@@ -17,7 +17,7 @@ const usuariosSimulados = [
   {
     "id_usuario": 1,
     "matricula": "202323069",
-    "password": "123",
+    "password": "1234",
     "rol": "alumno",
     "nombre": "ANGEL EDUARDO",
     "ape1": "ANGELES",
