@@ -9,9 +9,17 @@ def obtencionFecha():
 
 def lecturaTarjeta():
     #Funcion para leer los datos que lanza el teclado el lector
-    tarjeta=input("Acerca la tarjeta")
+    tarjeta=input("Acerca la tarjeta-->")
     print(tarjeta)
 
-lecturaTarjeta()
-obtencionFecha()
-print(lecturaTarjeta, obtencionFecha)
+
+#   Iniciación del bucle
+contador=0
+while True:    
+    lecturaTarjeta()
+    obtencionFecha()
+    print(lecturaTarjeta, obtencionFecha)
+    contador+=1
+    if contador < 5:
+        break 
+
