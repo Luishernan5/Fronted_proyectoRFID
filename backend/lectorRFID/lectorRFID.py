@@ -6,20 +6,20 @@ def obtencionFecha():
     #Esta funcion obtendra la fehca y hora actual
     fecha=datetime.now()
     print(fecha)
+    return fecha
 
 def lecturaTarjeta():
     #Funcion para leer los datos que lanza el teclado el lector
     tarjeta=input("Acerca la tarjeta-->")
     print(tarjeta)
-
+    return tarjeta
 
 #   Iniciación del bucle
 contador=0
 while True:    
     lecturaTarjeta()
     obtencionFecha()
-    print(lecturaTarjeta, obtencionFecha)
     contador+=1
-    if contador < 5:
+    if contador >= 5:
         break 
 
