@@ -20,6 +20,6 @@ while True:
     lecturaTarjeta()
     obtencionFecha()
     contador+=1
-    if contador >= 5:
+    if contador >= 50:
         break 
 
