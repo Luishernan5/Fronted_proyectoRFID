@@ -1,0 +1,79 @@
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #007BFF;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.pantalla {
+  background-color: white;
+  color: #000;
+  width: 90%;
+  max-width: 500px;
+  padding: 40px 30px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 0 30px rgba(0,0,0,0.4);
+  position: relative;
+}
+
+.logo {
+  width: 80%;
+  max-width: 300px;
+  margin-bottom: 20px;
+}
+
+h1 {
+  margin-bottom: 20px;
+  font-size: 30px;
+  color: #007BFF;
+}
+
+input {
+  padding: 12px;
+  font-size: 18px;
+  width: 80%;
+  max-width: 400px;
+  border-radius: 8px;
+  border: 2px solid #6C757D;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.ticket {
+  margin-top: 20px;
+  display: none;
+  animation: fadeIn 1s ease-in-out;
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+}
+
+.ticket p {
+  margin: 10px 0;
+  font-size: 18px;
+}
+
+.paloma {
+  font-size: 70px;
+  color: #00c851; /* verde brillante más visible */
+  animation: pop 0.5s ease-out;
+  margin-top: 15px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pop {
+  0% { transform: scale(0.5); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}

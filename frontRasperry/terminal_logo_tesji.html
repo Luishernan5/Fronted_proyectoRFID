@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Terminal Tesji</title>
+  <link rel="stylesheet" href="terminal.css">
+</head>
+<body>
+  <div class="pantalla">
+    <img src="logo_tesji.png" alt="Logo TESJI" class="logo">
+    <h1 id="mensaje">Pase su tarjeta...</h1>
+    <input type="text" id="matricula" placeholder="Escanear tarjeta" autofocus onkeypress="if(event.key==='Enter') procesarTarjeta()">
+
+    <div class="ticket" id="ticket">
+      <p><strong>Nombre:</strong> <span id="nombreAlumno"></span></p>
+      <p><strong>Materia:</strong> <span id="materiaAlumno"></span></p>
+      <p><strong>Horario:</strong> <span id="horarioAlumno"></span></p>
+      <div class="paloma">✔️</div>
+    </div>
+  </div>
+
+  <audio id="beep" src="https://www.soundjay.com/buttons/sounds/beep-07.mp3" preload="auto"></audio>
+
+  <script>
+    const alumnos = [
+      {
+        matricula: "A123",
+        nombre: "Juan Pérez",
+        materia: "Ecuaciones Diferenciales",
+        horario: "Lunes 13:00–15:00"
+      },
+      {
+        matricula: "B456",
+        nombre: "María López",
+        materia: "Taller de Ética",
+        horario: "Martes 10:00–12:00"
+      }
+    ];
+
+    function procesarTarjeta() {
+      const entrada = document.getElementById("matricula").value.trim();
+      const mensaje = document.getElementById("mensaje");
+      const ticket = document.getElementById("ticket");
+      const beep = document.getElementById("beep");
+      const alumno = alumnos.find(a => a.matricula === entrada);
+
+      ticket.style.display = "none";
+      mensaje.textContent = "Procesando...";
+
+      setTimeout(() => {
+        if (!alumno) {
+          mensaje.textContent = "Tarjeta no reconocida";
+          return;
+        }
+
+        beep.play();
+        document.getElementById("nombreAlumno").textContent = alumno.nombre;
+        document.getElementById("materiaAlumno").textContent = alumno.materia;
+        document.getElementById("horarioAlumno").textContent = alumno.horario;
+        mensaje.textContent = "Acceso concedido";
+        ticket.style.display = "block";
+      }, 1500);
+    }
+  </script>
+</body>
+</html>
