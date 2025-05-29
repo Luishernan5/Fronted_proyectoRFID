@@ -1,1 +1,3 @@
 #Lista de requerimientos para el desarrollo. 
+flask-cors
+flask
