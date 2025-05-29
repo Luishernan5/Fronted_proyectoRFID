@@ -8,7 +8,7 @@ def leer_uid():
 def enviar_asistencia(uid):
     ahora = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     try:
-        response = requests.post("http://localhost:5000/asistencias", json={"uid": uid})
+        response = requests.post("http://localhost:5000/frontRasperry/terminal_logo_tesji.html", json={"uid": uid})
         print(f"[{ahora}] Respuesta del servidor:", response.json())
     except Exception as e:
         print(f"[{ahora}] Error al enviar:", e)
